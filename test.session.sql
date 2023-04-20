@@ -1,13 +1,25 @@
-CREATE TABLE Users(
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    bio TEXT,
-    country VARCHAR(2)
+CREATE TABLE Bookings(
+    id INT AUTO_INCREMENT,
+    guest_id INT NOT NULL,
+    room_id INT NOT NULL,
+    check_in DATETIME,
+    PRIMARY KEY (id),
+    FOREIGN KEY (guest_id) REFERENCES Users(id),
+    FOREIGN KEY (room_id) REFERENCES Rooms(id)
 );
 
-INSERT INTO Rooms (owner_id, street)
-VALUES
-    (1, 'san diego sailboat'),
-    (1, 'nantucket cottage'),
-    (1, 'vail cabin'),
-    (1, 'sf cardboard box')
+SELECT
+    guest_id,
+    street,
+    check_in
+FROM Bookings
+INNER JOIN Rooms ON Rooms.owner_id = guest_id;
+
+SELECT
+    room_id,
+    guest_id,
+    email,
+    bio
+FROM Bookings
+INNER JOIN Users ON Users.id = guest_id
+WHERE room_id =2
